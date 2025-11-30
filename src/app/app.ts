@@ -1,12 +1,15 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { ProfessorDashboardComponent } from './pages/professor-dashboard/professor-dashboard.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+  standalone: true,
+  imports: [CommonModule, RouterOutlet, ProfessorDashboardComponent],
+  templateUrl: './app.html',  // ← Use o nome CORRETO do arquivo
+  styleUrl: './app.css'       // ← Use o nome CORRETO do arquivo
 })
 export class App {
-  protected readonly title = signal('trabalho-notas-frontend');
+  title = 'trabalho-notas-frontend';
 }

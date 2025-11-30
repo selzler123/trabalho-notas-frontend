@@ -1,0 +1,55 @@
+<div class="container">
+  <div *ngIf="!disciplinaSelecionada" class="disciplinas-section">
+    <h2>Minhas Disciplinas</h2>
+    <div class="disciplinas-grid">
+      <div *ngFor="let disciplina of disciplinas" class="disciplina-card"
+           (click)="selecionarDisciplina(disciplina)">
+        <h3>{{ disciplina.nome }}</h3>
+        <p>Professor: {{ disciplina.professor.nome }}</p>
+        <p>Alunos: {{ disciplina.alunos.length }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="disciplinaSelecionada" class="lancamento-section">
+    <div class="header">
+      <button class="btn-voltar" (click)="disciplinaSelecionada = null">← Voltar</button>
+      <div class="disciplina-info">
+        <h2>{{ disciplinaSelecionada.nome }}</h2>
+        <p>Professor: {{ disciplinaSelecionada.professor.nome }}</p>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <table class="tabela-alunos">
+        <thead>
+          <tr>
+            <th>Aluno</th><th>Nota 1º Bim</th><th>Faltas 1º Bim</th>
+            <th>Nota 2º Bim</th><th>Faltas 2º Bim</th><th>Média Final</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let lancamento of lancamentos">
+            <td class="aluno-info">
+              <strong>{{ lancamento.aluno.nome }}</strong><br>
+              <small>Mat: {{ lancamento.aluno.matricula }}</small>
+            </td>
+            <td><input type="number" [(ngModel)]="lancamento.notas.bimestre1" min="0" max="10" step="0.1" class="input-nota"></td>
+            <td><input type="number" [value]="calcularTotalFaltas(lancamento.faltas.bimestre1)" (change)="atualizarFaltasBimestre(lancamento.faltas.bimestre1, $event)" min="0" max="30" class="input-faltas"></td>
+            <td><input type="number" [(ngModel)]="lancamento.notas.bimestre2" min="0" max="10" step="0.1" class="input-nota"></td>
+            <td><input type="number" [value]="calcularTotalFaltas(lancamento.faltas.bimestre2)" (change)="atualizarFaltasBimestre(lancamento.faltas.bimestre2, $event)" min="0" max="30" class="input-faltas"></td>
+            <td class="media-final">
+              <span [class.aprovado]="calcularMedia(lancamento) >= 6" [class.reprovado]="calcularMedia(lancamento) < 6">
+                {{ calcularMedia(lancamento) | number:'1.1-1' }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="actions">
+      <button class="btn-salvar" (click)="salvarLancamentos()">💾 Salvar Lançamentos</button>
+    </div>
+  </div>
+</div>
